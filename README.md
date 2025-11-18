@@ -21,7 +21,41 @@ The whole pipeline is implemented in a single Google Colab notebook using Tensor
 
 ---
 
+## Files in this repository
+
+- `Steel_Surface_Defect_Classification.ipynb`  
+  Main Colab / Jupyter notebook implementing the full pipeline:
+  - loading NEU and GC10 datasets (paths must be set by the user),
+  - preprocessing and data generators,
+  - ResNet-50 model definition,
+  - training and fine-tuning,
+  - evaluation on NEU and GC10.
+
+- `requirements.txt`  
+  Python packages needed to run the notebook.
+
+- `Training and Validation Accuracy.png`  
+  Training vs. validation **accuracy** curves for NEU.
+
+- `Training and Validation Loss.png`  
+  Training vs. validation **loss** curves for NEU.
+
+- `NEU Validation Confusion matrix.png`  
+  Confusion matrix for the NEU **validation** set.
+
+- `NEU Test Confusion matrix.png`  
+  Confusion matrix for the NEU **test** set.
+
+- `Prediction.png`  
+  Sample predictions on GC10 *Inclusion* images using the NEU-trained model  
+  (green titles = correct Inclusion, red titles = misclassified).
+
+---
+
 ## Datasets
+
+> **Note:** The raw image datasets are **not** included in this repository due to size and licensing.  
+> Please download them separately and update the paths in the notebook.
 
 ### NEU Metal Surface Defects (NEU-DET)
 
@@ -34,8 +68,8 @@ The whole pipeline is implemented in a single Google Colab notebook using Tensor
 
 Used as the **main training and evaluation dataset**.
 
-> Kaggle link:  
-> https://www.kaggle.com/datasets/kaustubhdikshit/neu-surface-defect-database
+Example source (Kaggle):  
+https://www.kaggle.com/datasets/kaustubhdikshit/neu-surface-defect-database
 
 ---
 
@@ -46,11 +80,8 @@ Used as the **main training and evaluation dataset**.
 - In this project we only use the **`inclusion`** folder as an **external test set**.  
   The NEU-trained model is applied directly to GC10 inclusion images (no retraining).
 
-> Kaggle link:  
-> https://www.kaggle.com/datasets/zhangyunsheng/defects-class-and-location
-
-Raw datasets are **not** stored in this repository.  
-Please download them from the original sources above.
+Example source (Kaggle):  
+https://www.kaggle.com/datasets/zhangyunsheng/defects-class-and-location
 
 ---
 
@@ -106,7 +137,11 @@ The best model on the **NEU validation set** is saved and used for all evaluatio
 Confusion matrices for both validation and test sets are perfect diagonals:  
 all six classes (**Crazing, Inclusion, Patches, Pitted, Rolled, Scratches**) are predicted correctly for every image.
 
-(See `figures/neu_confusion_matrix_val.png` and `figures/neu_confusion_matrix_test.png`.)
+See:
+- `NEU Validation Confusion matrix.png`  
+- `NEU Test Confusion matrix.png`  
+- `Training and Validation Accuracy.png`  
+- `Training and Validation Loss.png`
 
 ### Cross-dataset generalization: NEU → GC10
 
@@ -120,14 +155,13 @@ Results:
 
 This is much lower than the 100% accuracy on NEU and clearly shows the effect of **domain shift** between datasets (different cameras, lighting, background texture, and defect appearance).
 
-Example predictions (correct vs misclassified) are shown in  
-`figures/gc10_inclusion_predictions.png`.
+Example predictions (correct vs misclassified) are shown in `Prediction.png`.
 
 ---
 
 ## Repository structure
 
-Suggested layout (adapt to your repo):
+Current simple layout:
 
 ```text
 .
@@ -136,7 +170,8 @@ Suggested layout (adapt to your repo):
 ├── notebooks/
 │   └── Steel_Surface_Defect_Classification.ipynb
 └── figures/
-    ├── training_curves.png
-    ├── neu_confusion_matrix_val.png
-    ├── neu_confusion_matrix_test.png
-    └── gc10_inclusion_predictions.png
+    ├── Training and Validation Loss.png
+    ├── Training and Validation Accuracy.png
+    ├── NEU Validation Confusion matrix.png
+    ├── NEU Test Confusion matrix.png
+    └── Prediction.png
